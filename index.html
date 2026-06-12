@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jeremy Haynes — Sales Masterclass</title>
+<style>
+  :root{
+    --bg:#0f1115; --panel:#171a21; --panel-2:#1d212b; --line:#2a2f3a;
+    --text:#e7eaf0; --muted:#9aa3b2; --accent:#f5a623; --accent-2:#5b8cff;
+    --green:#3fb950; --radius:14px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  a{color:var(--accent-2); text-decoration:none}
+  /* layout */
+  .wrap{display:grid; grid-template-columns:300px 1fr; min-height:100vh}
+  /* sidebar */
+  .side{
+    position:sticky; top:0; align-self:start; height:100vh; overflow-y:auto;
+    background:var(--panel); border-right:1px solid var(--line); padding:24px 18px;
+  }
+  .brand{font-size:13px; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); font-weight:700; margin-bottom:4px}
+  .brand-sub{font-size:13px; color:var(--muted); margin-bottom:18px}
+  .search{
+    width:100%; padding:10px 12px; border-radius:10px; border:1px solid var(--line);
+    background:var(--panel-2); color:var(--text); font-size:14px; margin-bottom:16px; outline:none;
+  }
+  .search:focus{border-color:var(--accent-2)}
+  .nav a{
+    display:block; padding:8px 12px; border-radius:9px; color:var(--muted);
+    font-size:14px; margin-bottom:2px; border-left:3px solid transparent; transition:.15s;
+  }
+  .nav a:hover{background:var(--panel-2); color:var(--text)}
+  .nav a.active{background:var(--panel-2); color:var(--text); border-left-color:var(--accent)}
+  .nav .num{color:var(--accent); font-weight:700; margin-right:8px; font-variant-numeric:tabular-nums}
+  /* main */
+  .main{padding:48px 56px; max-width:920px; margin:0 auto; width:100%}
+  header.hero{margin-bottom:40px}
+  .hero h1{font-size:34px; line-height:1.2; margin:0 0 10px; letter-spacing:-.01em}
+  .hero .tag{color:var(--accent); font-weight:600; font-size:14px; letter-spacing:.04em; text-transform:uppercase}
+  .hero p{color:var(--muted); margin:14px 0 0; max-width:680px}
+  .meta-row{display:flex; gap:10px; flex-wrap:wrap; margin-top:18px}
+  .chip{background:var(--panel); border:1px solid var(--line); padding:6px 12px; border-radius:999px; font-size:12.5px; color:var(--muted)}
+  .chip b{color:var(--text)}
+  section{
+    background:var(--panel); border:1px solid var(--line); border-radius:var(--radius);
+    padding:28px 30px; margin-bottom:18px; scroll-margin-top:24px;
+  }
+  section h2{
+    font-size:13px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent);
+    margin:0 0 6px; font-weight:700;
+  }
+  section h2 .big{display:block; font-size:24px; letter-spacing:-.01em; text-transform:none; color:var(--text); margin-top:4px}
+  section h3{font-size:17px; margin:24px 0 8px; color:var(--text)}
+  section h4{font-size:14px; margin:18px 0 6px; color:var(--accent-2); letter-spacing:.02em}
+  p{margin:10px 0}
+  strong{color:#fff}
+  ul,ol{margin:10px 0; padding-left:22px}
+  li{margin:6px 0}
+  .lead{color:var(--muted); font-size:17px}
+  blockquote{
+    margin:14px 0; padding:14px 18px; background:var(--panel-2); border-left:3px solid var(--accent);
+    border-radius:0 10px 10px 0; color:#dfe5ef; font-style:normal;
+  }
+  blockquote.script{border-left-color:var(--green)}
+  .callout{
+    background:linear-gradient(180deg,rgba(245,166,35,.08),rgba(245,166,35,.02));
+    border:1px solid rgba(245,166,35,.3); border-radius:12px; padding:16px 18px; margin:16px 0;
+  }
+  .callout b{color:var(--accent)}
+  table{width:100%; border-collapse:collapse; margin:14px 0; font-size:14.5px}
+  th,td{text-align:left; padding:10px 12px; border-bottom:1px solid var(--line)}
+  th{color:var(--muted); font-weight:600; font-size:12.5px; text-transform:uppercase; letter-spacing:.05em}
+  td b{color:#fff}
+  .stat{color:var(--accent); font-weight:700}
+  .cheat{counter-reset:c}
+  .cheat .item{display:flex; gap:14px; padding:12px 0; border-bottom:1px solid var(--line)}
+  .cheat .item:last-child{border-bottom:none}
+  .cheat .n{
+    flex:0 0 30px; height:30px; border-radius:50%; background:var(--accent); color:#1a1205;
+    display:grid; place-items:center; font-weight:800; font-size:14px;
+  }
+  .hl{color:var(--accent)}
+  .green{color:var(--green)}
+  .no-results{display:none; color:var(--muted); padding:30px; text-align:center}
+  footer{color:var(--muted); font-size:13px; padding:30px 0 10px; text-align:center; border-top:1px solid var(--line); margin-top:20px}
+  /* mobile */
+  @media(max-width:860px){
+    .wrap{grid-template-columns:1fr}
+    .side{position:relative; height:auto; border-right:none; border-bottom:1px solid var(--line)}
+    .nav{display:none}
+    .main{padding:30px 20px}
+    .hero h1{font-size:26px}
+  }
+  .top-btn{
+    position:fixed; right:22px; bottom:22px; background:var(--accent); color:#1a1205;
+    border:none; width:46px; height:46px; border-radius:50%; font-size:20px; cursor:pointer;
+    display:none; box-shadow:0 6px 20px rgba(0,0,0,.4); font-weight:700;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <aside class="side">
+    <div class="brand">Jeremy Haynes</div>
+    <div class="brand-sub">Sales Masterclass · Field Guide</div>
+    <input id="search" class="search" type="search" placeholder="Search the playbook…" autocomplete="off">
+    <nav class="nav" id="nav">
+      <a href="#big-idea"><span class="num">★</span>The Big Idea</a>
+      <a href="#p1"><span class="num">1</span>Contact the Lead</a>
+      <a href="#p2"><span class="num">2</span>Team Structure</a>
+      <a href="#p3"><span class="num">3</span>Show-Rate Machine</a>
+      <a href="#p4"><span class="num">4</span>The Sales Call</a>
+      <a href="#p5"><span class="num">5</span>Diagnostic Selling</a>
+      <a href="#p6"><span class="num">6</span>Objection Handling</a>
+      <a href="#p7"><span class="num">7</span>Managing the Team</a>
+      <a href="#p8"><span class="num">8</span>Hiring Closers</a>
+      <a href="#bonus"><span class="num">$</span>Funnel &amp; Economics</a>
+      <a href="#cheat"><span class="num">⚡</span>30-Second Cheat Sheet</a>
+    </nav>
+  </aside>
+
+  <main class="main" id="main">
+    <header class="hero">
+      <div class="tag">4-Hour Course · Value Extraction</div>
+      <h1>“If I Wanted To Master Sales, I’d Watch This Video”</h1>
+      <p class="lead">Every actionable framework, exact script, and benchmark from Jeremy Haynes’ 4-hour sales masterclass — reorganized into do-this-then-this steps. Built for high-ticket / book-a-call funnels, but the call mechanics and psychology apply to any sale.</p>
+      <div class="meta-row">
+        <span class="chip"><b>8</b> parts + bonus</span>
+        <span class="chip">Scripts in <b class="green">green</b> = use verbatim</span>
+        <span class="chip">Source: <b>jeremyhaynes.com</b></span>
+      </div>
+    </header>
+
+    <div id="content">
+
+    <section id="big-idea" data-title="The Big Idea">
+      <h2>Start Here<span class="big">The Big Idea</span></h2>
+      <p>Most businesses think a sale is won on the call. Haynes’ entire thesis: <strong>the sale is won before and after the call</strong> — in how fast you contact a lead, how hard you “hammer” them between booking and showing up, and how you run the room when you finally talk.</p>
+      <p>He splits sellers into two types:</p>
+      <ul>
+        <li><strong>The “Fat Cat Closer”</strong> — only takes pre-qualified, pre-scheduled layup deals. <em>“If your team only works perfect leads, you don’t have salespeople — you have cashiers.”</em></li>
+        <li><strong>The Real Salesperson</strong> — works inbound forms, chases no-shows, does outbound, and <em>sells the call while booking it.</em></li>
+      </ul>
+      <p>The rest of the course is the system that turns a team of cashiers into real salespeople.</p>
+    </section>
+
+    <section id="p1" data-title="Contact the Lead Speed Text First">
+      <h2>Part 1<span class="big">Contact the Lead — Speed + Text-First</span></h2>
+      <p><strong>The problem:</strong> Everyone now has Do Not Disturb, spam filters, and ignores unknown numbers. “Dial and leave a voicemail” is dead.</p>
+      <div class="callout"><b>The rule that matters most:</b> Contact a lead <span class="stat">within 5 minutes</span> of form-fill → <span class="stat">+50% close probability</span>. After 10 minutes of no contact, odds of qualifying drop ~400%.</div>
+      <h3>The exact sequence</h3>
+      <ol>
+        <li><strong>Text first, with your name</strong> (bypasses the iPhone unknown-caller filter):
+          <blockquote class="script">“Hey Leo, it’s Jeremy. Saw you just filled out a form of ours online. Would love to chat with you if you are open in the next 5 minutes. If not, I have some time later today. Let me know if that works or shoot over whatever question you have.”</blockquote>
+          Use their <strong>first name</strong>, keep it short, end with an open-ended door.
+        </li>
+        <li><strong>Call once.</strong> If DND is on, it goes to voicemail.</li>
+        <li><strong>Call again immediately</strong> — a second call within a short window <em>rings through</em> Do Not Disturb on iPhone.</li>
+        <li><strong>Send a 10–30 second selfie video:</strong>
+          <blockquote class="script">“Hey what’s going on, I saw that you filled out our form on Facebook. My name is Jeremy. I just wanted to put a face to the name. I got time in about 5 minutes if you’re available to talk. If you can’t talk now, I got time later tonight. You can also just shoot me over a text if you have a few questions. I just wanted to put a face to the name, introduce myself, and say that I’m very excited to help you out.”</blockquote>
+        </li>
+        <li><strong>Follow up with VALUE, never “just checking in”</strong> — a relevant article, case study, or platform update. Frame is <em>expertise + helpfulness</em>, never pressure.</li>
+      </ol>
+      <h3>Small details that matter</h3>
+      <ul>
+        <li><strong>Blue bubbles, not green.</strong> Use iMessage. Affluent buyers read SMS as “not a real person.”</li>
+        <li><strong>“Sell the call” while booking it.</strong> Explain what will happen and why it’s worth their time, then get a verbal lock: <em>“Can I get your word?”</em> Use specific times (“9 AM tomorrow,” never “sometime tomorrow”).</li>
+      </ul>
+    </section>
+
+    <section id="p2" data-title="Team Structure Setter Closer Cleaner">
+      <h2>Part 2<span class="big">Team Structure — Setter / Closer / Cleaner</span></h2>
+      <p>Three specialized roles. Most teams are missing the third — and it’s the most profitable.</p>
+      <table>
+        <tr><th>Role</th><th>Job</th></tr>
+        <tr><td><b>Setter</b></td><td>Schedules appointments. Works leads onto the calendar.</td></tr>
+        <tr><td><b>Closer</b></td><td>Runs the sales call and closes.</td></tr>
+        <tr><td><b>Cleaner</b></td><td>Works the leads closers <em>abandoned</em> — no-shows, ghosts, stalled deals.</td></tr>
+      </table>
+      <ul>
+        <li><strong>The Cleaner is the hidden money.</strong> <em>“One of the most underutilized positions inside a sales organization.”</em> Recovers revenue other closers left on the table AND trains new reps with low-pressure reps.</li>
+        <li><strong>Scale target:</strong> A team doing 40–50 calls/day needs <span class="stat">5–7 closers</span> taking calls 5 days/week, with <span class="stat">2–3 covering Saturdays</span>.</li>
+      </ul>
+    </section>
+
+    <section id="p3" data-title="Show Rate Machine Backend Selling System">
+      <h2>Part 3<span class="big">The Show-Rate Machine</span></h2>
+      <p class="lead">The part most people have never built — and where the biggest, cheapest gains are. Haynes used this to lift show rates <span class="stat">30%</span> at Codie Sanchez’s event.</p>
+      <h3>Why it works — the 3 mental models</h3>
+      <ol>
+        <li><strong>Scanner Mode → Justification Mode.</strong> Before booking, the brain skims to conserve energy. The instant someone books, they flip to <em>justification mode</em> — researching whether they made the right call. <strong>This post-booking window is the single highest-leverage sales window you have</strong>, and most businesses waste it on calendar reminders.</li>
+        <li><strong>The Dermatologist Principle.</strong> A pamphlet saying “50% higher cancer risk” gets ignored. A dermatologist glancing at your arm saying <em>“I’d get that looked at”</em> gets you booked. Same info — different <em>frame</em>: contextual, personal, believable.</li>
+        <li><strong>The Interest Spectrum.</strong> Bookers arrive Curious → Generally interested → Highly interested → <strong>Conviction</strong> (where deals close). The backend’s only job is to drag them to conviction <em>before</em> the call.</li>
+      </ol>
+      <h3>The 4 parts — run ALL in parallel the moment someone books</h3>
+      <h4>Part 1 — Confirmation Page Video</h4>
+      <ul>
+        <li>Page must show: appointment date/time, “add to calendar” link, and a headline confirming exactly what’s next.</li>
+        <li><strong>Lead with ONE urgency/first-mover video</strong> (~8 min). This single video drove <span class="stat">+14% show rate</span> — even though only <span class="stat">52%</span> watched it. 19 supporting videos <em>without</em> the urgency anchor first lifted show rate only ~2%. <strong>You cannot skip the urgency frame.</strong></li>
+        <li>Add <strong>3–19 breakout videos</strong> (1–3 min), ordered by question frequency: common questions, case studies, what the call will/won’t cover, and introduce your face + voice.</li>
+        <li><strong>Exclude:</strong> upsells, competing CTAs, clutter. Mobile-first.</li>
+        <li>Optional intake questionnaire → prep data + commitment (fillers show up more).</li>
+      </ul>
+      <h4>Part 2 — Value-Dense Email Sequence</h4>
+      <ul>
+        <li><strong>6 emails/day from booking to call = 18 emails over 72 hours.</strong> Target <span class="stat">50–70% open rate</span>.</li>
+        <li><strong>Put the content IN the email body — don’t link out.</strong> Click-through is single digits; if value lives behind a link, almost no one sees it.</li>
+        <li>Old vs. new framing:
+          <blockquote>Old: “Reminder: Your call is tomorrow”<br>New: “Here’s why most people skip out on X — don’t make the same mistake.”<br><em>One builds trust. One gets archived.</em></blockquote>
+        </li>
+        <li>Calibrate: start 3–4/day; if opens hold as you add more, keep adding; when opens drop, you’ve hit the ceiling.</li>
+        <li>Tail effect: in one 12-day sequence, <span class="stat">70% of revenue came from days 10–12.</span></li>
+      </ul>
+      <h4>Part 3 — The “Hammer Them” Retargeting Campaign <span style="color:var(--muted);font-weight:400">(only part that costs ad spend)</span></h4>
+      <ul>
+        <li>Goal: <span class="stat">15–20 content impressions per prospect</span> before the call — appearing “every other post.”</li>
+        <li>Inventory (non-negotiable): <strong>30–50 short-form (&lt;90s) + 15–30 long-form.</strong> <em>“There is no less.”</em></li>
+        <li>Organize into <strong>4 quadrants:</strong> (1) common questions, (2) deeper follow-ups, (3) objections from real call recordings, (4) expectations/logistics.</li>
+        <li><strong>Build:</strong> one video per ad set (50 videos = 50 ad sets), targeting a custom audience of call-bookers (72-hr window). Objective = video views, not conversions. Use a 3-second view exclusion so no one sees the same video twice.</li>
+        <li><strong>Budget:</strong> Call funnels $100–$200/day. Webinars/challenges $300–$500/day. ≈ $0.10–$0.50 per 15-sec view.</li>
+        <li>Anchor stat: the average person scrolls <span class="stat">356 feet</span> of feed daily.</li>
+      </ul>
+      <h4>Part 4 — Personalized Setter Outreach (the human layer)</h4>
+      <ul>
+        <li>Within hours, a real human texts from an iPhone after a research sprint: read their application, check socials, find <strong>one specific hook</strong>.</li>
+        <li>Send a selfie video referencing one specific thing from their application.</li>
+        <li>Re-engage motivation: <em>“Hey, wanted to see what got you interested… what’s piqued your curiosity here?”</em> Then offer a resource: <em>“Would you like it via text or email?”</em> Position: <em>“Treat me like your support contact.”</em></li>
+      </ul>
+      <h3>Pre-call + no-show recovery touch sequence</h3>
+      <ul>
+        <li><strong>24 hrs before:</strong> personal text with a question — <em>“What’s the biggest challenge you’re dealing with right now?”</em></li>
+        <li><strong>The Reply-YES mechanic:</strong> <em>“Reply YES to confirm you’re still good for tomorrow at 2pm.”</em> → <span class="stat">+10–15%</span> show rate. YES-responders show at <span class="stat">85%+</span>.</li>
+        <li><strong>3 hrs before:</strong> confirmation text + one-click reschedule link.</li>
+        <li><strong>15 min before:</strong> the meeting link.</li>
+        <li><strong>No-show? 15 min after:</strong> <em>“Life gets crazy, I get it”</em> + reschedule link. <strong>1 hr later:</strong> email with value. <strong>Next day:</strong> <em>“Last chance to grab time this week.”</em> → recovers <span class="stat">20–30%</span> of no-shows.</li>
+      </ul>
+      <h3>Show-rate benchmarks</h3>
+      <table>
+        <tr><th>Level</th><th>Show Rate</th></tr>
+        <tr><td>Poor</td><td>Below 50%</td></tr>
+        <tr><td>Average</td><td>50–65%</td></tr>
+        <tr><td>Good</td><td>65–75%</td></tr>
+        <tr><td><b class="green">Excellent</b></td><td><b>75%+</b></td></tr>
+      </table>
+      <div class="callout">Target 60–70% minimum. Haynes: <em>“If your show rate is in the 30s, you don’t have an offer. You have a sales liability.”</em></div>
+    </section>
+
+    <section id="p4" data-title="The Sales Call Structure FAB">
+      <h2>Part 4<span class="big">The Sales Call — Full Structure, In Order</span></h2>
+      <div class="callout">Top closers <b>talk less than 40%</b> of the call (avg reps ~58%, low performers 65–75%). <b>Target: 43% talk / 57% listen.</b> Set a mental 30–40s timer, then ask <em>“What do you like about that?”</em> to hand the mic back.</div>
+      <h3>Step 1 — Open with high status + price upfront</h3>
+      <blockquote class="script">“Hey Tom, I’m really happy we were both able to take some time out of our day to take a look at this. I know the one thing we both have in common is neither of us has enough time. To make best use of your time and mine, I want to give you the price of our product upfront so you can justify it as we go.”</blockquote>
+      <p><strong>Why price first:</strong> State price then justify, and value <em>grows</em> with every feature — each becomes proof the price is worth it. Build up and drop price at the end, and you’ve capped perceived value; the number lands as a shock.</p>
+      <h3>Step 2 — The justification question</h3>
+      <blockquote class="script">“Not saying you will, not saying you should, but if you were going to make an investment today, what would be the one, two, maybe three things you would absolutely need to see here today in order to justify an investment like that?”</blockquote>
+      <p>This hands you their exact buying criteria. Now you only prove those 1–3 things.</p>
+      <h3>Step 3 — Present with FAB (Feature → Advantage → Benefit → Gap → Yes)</h3>
+      <ul>
+        <li><strong>Feature</strong> — what it IS: <em>“We have these quarterly live events.”</em></li>
+        <li><strong>Advantage</strong> — what it DOES: <em>“You can meet, mastermind, and network with peers and the team.”</em></li>
+        <li><strong>Benefit</strong> — the emotional outcome: <em>“Build real relationships with people more successful than you, so you keep growing.”</em></li>
+        <li><strong>Gap question</strong> — <em>“What are you currently doing to network with more successful people?”</em> → answer is almost always “nothing.” <strong>The gap IS the sale. Don’t explain it — let them feel it.</strong></li>
+        <li><strong>Inarguable Yes</strong> — <em>“You’d agree that meeting successful peers would boost your confidence and competence, right?”</em></li>
+      </ul>
+      <blockquote>“Horrible salespeople just show off features. Good salespeople know FAB.”</blockquote>
+      <h3>Step 4 — Show the “what happens next” slide</h3>
+      <p>“People don’t know what they don’t know.” Walk them visually through what happens <em>after</em> they sign — removes fear of the unknown and de-risks commitment.</p>
+      <h3>Step 5 — Close assumptively</h3>
+      <blockquote class="script">“How soon do you want to get started?”</blockquote>
+      <p>(Not “Are you interested?” — presupposes yes.) Maintain high status throughout; never appear desperate.</p>
+      <h3>The 6 Emotional Drivers</h3>
+      <p>Frame every benefit around at least one:</p>
+      <ol>
+        <li><strong>Confidence</strong> — certainty about what to do next.</li>
+        <li><strong>Creative</strong> — self-expression / new capability (Apple’s model).</li>
+        <li><strong>Relief</strong> — escaping a pain. <em>“Probably the most powerful one.”</em></li>
+        <li><strong>Competent</strong> — results they can’t get alone.</li>
+        <li><strong>Savvy</strong> — feeling they got a smart deal (Walmart’s model).</li>
+        <li><strong>Accepted</strong> — belonging to a group/identity.</li>
+      </ol>
+    </section>
+
+    <section id="p5" data-title="Diagnostic Selling Discovery">
+      <h2>Part 5<span class="big">Diagnostic Selling</span></h2>
+      <p>Haynes’ claim: consultative/diagnostic calls close at <span class="stat">40–60%</span> vs. <span class="stat">15–25%</span> for traditional pitching. The call is a <em>diagnosis</em>, not a pitch. Six phases of questions:</p>
+      <ol>
+        <li><strong>Surface:</strong> <em>“Walk me through what’s happening right now that made you want this conversation.”</em> / <em>“When did you first notice this becoming an issue?”</em></li>
+        <li><strong>Root cause:</strong> <em>“What do you think is causing that?”</em> / <em>“What have you already tried? Why didn’t it work?”</em></li>
+        <li><strong>Impact (quantify):</strong> <em>“What’s this costing you — money, time, stress, opportunity?”</em> / <em>“If nothing changes, where are you in 6 months? A year?”</em></li>
+        <li><strong>Solution history:</strong> <em>“Why do you think that didn’t deliver the results you wanted?”</em></li>
+        <li><strong>Desired outcome:</strong> <em>“If we talk a year from now and you’re thrilled, what changed? Why is that important to you?”</em></li>
+        <li><strong>Obstacle:</strong> <em>“What’s stopping you from fixing this on your own?”</em></li>
+      </ol>
+      <h4>Reframe template (the pivot that creates the “aha”)</h4>
+      <blockquote class="script">“So what I’m hearing is you think the issue is [surface problem], but from what you’ve described, it sounds like the actual issue is [root cause]. Does that resonate?”</blockquote>
+      <h4>Solution formula</h4>
+      <blockquote class="script">“Based on everything you’ve shared: the core issue is [root cause], it’s costing you [impact], and what you need is [solution] because [how it fixes the root cause]. Does that make sense?”</blockquote>
+      <p>Diagnostic selling largely <em>prevents</em> objections by handling root causes during discovery instead of fighting resistance at the close.</p>
+    </section>
+
+    <section id="p6" data-title="Objection Handling">
+      <h2>Part 6<span class="big">Objection Handling</span></h2>
+      <div class="callout"><b>Framework: Acknowledge → Reframe → Ask.</b></div>
+      <ul>
+        <li><strong>Price:</strong> <em>“I understand investment matters. What most businesses find is the cost of NOT solving this ends up being significant over time. Can I show you that math for your situation?”</em></li>
+        <li><strong>“Need to think about it”:</strong> <em>“Usually when someone needs time to think, there’s a specific concern they’re working through. Is it budget, timing, or something about the solution itself?”</em></li>
+        <li><strong>Ghosted proposal:</strong> <em>“Usually when I send a proposal and don’t hear back, it’s one of three things: price, timing, or scope. Which is it for you?”</em></li>
+        <li><strong>Money / “can’t afford it” (hidden-assets):</strong> <em>“Do you have a 401k? Are you in the stock market? Do you have a financial advisor?”</em> — surface liquidity; probe credit / 0% APR options.</li>
+        <li><strong>“Are fees negotiable?”</strong> → <em>“No. Are you ready to get started?”</em> Stay firm after running the full sequence.</li>
+      </ul>
+      <h4>Pain-amplification sequence</h4>
+      <ol>
+        <li><em>“What’s this costing you right now?”</em></li>
+        <li><em>“What does that look like in 6 months?”</em></li>
+        <li><em>“What’s at risk if this continues?”</em></li>
+      </ol>
+      <h4>Assumptive language swaps</h4>
+      <ul>
+        <li>❌ “Would you like to get started?” → ✅ <strong>“When would you like to start?”</strong></li>
+        <li>❌ “Are you interested in this package?” → ✅ <strong>“Which package fits your timeline better?”</strong></li>
+      </ul>
+      <p>Use <strong>3–5 trial closes</strong> per call: <em>“Does this pricing fit your budget?”</em> / <em>“How does this timeline sound for your team?”</em></p>
+    </section>
+
+    <section id="p7" data-title="Managing the Team Stats Coaching">
+      <h2>Part 7<span class="big">Managing the Team — Stats + Coaching</span></h2>
+      <p><strong>Track daily, visibly:</strong> dials, connection rate, show rate, close rate, revenue, avg deal size, cancellation rate.</p>
+      <h3>Daily rhythm of elite teams</h3>
+      <ul>
+        <li>Morning standup with <strong>real, actionable data</strong> (dials, appointments, closes).</li>
+        <li><strong>30–45 min of role-play before calls start.</strong></li>
+        <li>Manager walks the floor, listens live, injects lessons in real time.</li>
+        <li>Someone clips call recordings live into “need to review” + per-rep folders.</li>
+      </ul>
+      <h3>Daily training rotation (5 parts)</h3>
+      <p>(1) review 1 closed + 1 lost call, (2) disposition review of yesterday’s leads, (3) objection role-play, (4) live iPhone-outreach screen-share coaching, (5) marketing coordination.</p>
+      <h3>Call review</h3>
+      <p>Every call recorded; <strong>reviewed within 48 hrs</strong>; rep self-reviews first, then coach. Coach on the <strong>“one thing”</strong> — single highest-impact fix per iteration.</p>
+      <h3>Performance standards</h3>
+      <ul>
+        <li>2 consecutive weeks of declining stats → performance conversation.</li>
+        <li>4 consecutive weeks → termination.</li>
+        <li>Bottom of the team reviewed monthly.</li>
+        <li><strong>Target close rate: ~35%</strong> on qualified, booked calls.</li>
+      </ul>
+      <h3>Meeting cadence</h3>
+      <p>Daily standup = 15 min, status only, no debates. Weekly optimization = 60 min hard-stop (review numbers → pick ONE friction point → assign a fix with owner + deadline).</p>
+    </section>
+
+    <section id="p8" data-title="Hiring Closers Recruiting Screening">
+      <h2>Part 8<span class="big">Hiring Closers</span></h2>
+      <p><strong>When to hire:</strong> start recruiting when a closer hits <span class="stat">70–80% calendar capacity</span>. Continuous hiring (12×/yr) vs. reactive (6×/yr) ≈ 2× revenue difference.</p>
+      <h3>Before you hire your first closer (non-negotiable docs)</h3>
+      <ul>
+        <li>Documented sales process, first call → close.</li>
+        <li>Recordings of <strong>20–30 winning calls.</strong></li>
+        <li>Objection scripts for your <strong>top 5 objections.</strong></li>
+        <li>Clear qualification criteria.</li>
+      </ul>
+      <blockquote>“You can’t delegate what you haven’t documented.”</blockquote>
+      <h3>Where to find them</h3>
+      <p>Facebook groups for high-ticket closers (e.g., “High Ticket Ninjas”) + Meta employment ads (owner selfie video). Budget <strong>$50–$200/day</strong>; qualified applicants in 24–48 hrs. ~¼–⅓ the cost of a placement agency.</p>
+      <p><strong>Two ideal profiles:</strong> young &amp; hungry, OR family-oriented &amp; stable. <strong>Avoid:</strong> “in-between life phase” candidates, frequent job-hoppers. <strong>Three things closers want:</strong> money, time/flexibility, growth — sell all three in the ad.</p>
+      <h3>4-stage screening funnel</h3>
+      <ol>
+        <li><strong>Typeform</strong> with conditional logic → auto-disqualify.</li>
+        <li><strong>EA/VA review</strong> of text answers for grammar/communication.</li>
+        <li><strong>90-second selfie video</strong> (24–48 hr deadline), 3 questions: (Q1) obvious-right-answer gimme, (Q2) <em>“How do we know you’re being honest?”</em> (creative honesty test), (Q3) a real objection from YOUR business.</li>
+        <li><strong>Two-round Zoom interview</strong> with live role-plays + character read.</li>
+      </ol>
+      <div class="callout">Filter question: <em>“Are you a fat cat closer or a real salesperson?”</em></div>
+      <h3>Comp reality</h3>
+      <p>Average closers $10–20k/mo, top closers $20–50k/mo (Haynes’ best: $80–90k/mo in <em>worst</em> months). New hires get a <strong>30–60 day base</strong> during ramp, then commission.</p>
+      <h3>Onboarding</h3>
+      <p>Watch training pre-day-one → shadow senior 1–2 weeks → flip (senior monitors while they lead) → independent. <em>“When someone isn’t working out, you usually know within the first month.”</em> Fire fast.</p>
+    </section>
+
+    <section id="bonus" data-title="Funnel Economics Owners">
+      <h2>Bonus<span class="big">Funnel &amp; Economics (for owners)</span></h2>
+      <ul>
+        <li><strong>Funnel structure:</strong> Headline → VSL/mini-webinar → <strong>integrated Typeform + Calendly</strong> application. Qualified → pixeled confirmation page; unqualified → un-pixeled DQ page + drop-sell. Integrated scheduling cuts cost-per-call ~50%.</li>
+        <li><strong>Cost-per-call benchmarks:</strong> Excellent &lt;$75 | Good $75–150 | Avg $150–300 | Poor $300+.</li>
+        <li><strong>Scaling levers, in order:</strong> (1) raise show rate, (2) raise close rate, (3) cut cost-per-call, (4) increase ad spend, (5) hire more closers.</li>
+        <li><strong>Revenue formula (one-call):</strong> Monthly Calls × Show Rate × Close Rate × Cash/Sale.</li>
+        <li><strong>CRM stack:</strong> Close.com or Pipedrive; Slybroadcast for mass voicemail drops; local-area-code spoofing for higher connect rates.</li>
+      </ul>
+    </section>
+
+    <section id="cheat" data-title="30 Second Cheat Sheet Summary">
+      <h2>TL;DR<span class="big">The 30-Second Cheat Sheet</span></h2>
+      <div class="cheat">
+        <div class="item"><div class="n">1</div><div><strong>Text before you call. Contact in 5 min.</strong> Call twice. Send a selfie video.</div></div>
+        <div class="item"><div class="n">2</div><div><strong>Hire a Cleaner</strong> to work abandoned leads.</div></div>
+        <div class="item"><div class="n">3</div><div><strong>Hammer them between booking and call:</strong> confirmation-page urgency video + 18 value emails + 30–50 retargeting clips + a personal setter video. Get a “Reply YES.”</div></div>
+        <div class="item"><div class="n">4</div><div><strong>On the call:</strong> price first, talk &lt;40%, run FAB, ask “what would you need to see to justify this?”, close with “how soon do you want to start?”</div></div>
+        <div class="item"><div class="n">5</div><div><strong>Diagnose, don’t pitch.</strong> Reframe surface problem → root cause.</div></div>
+        <div class="item"><div class="n">6</div><div><strong>Frame every benefit around one of the 6 emotions</strong> (relief is strongest).</div></div>
+        <div class="item"><div class="n">7</div><div><strong>Track stats daily</strong>, review calls in 48 hrs, coach one thing, fire in 4 weeks.</div></div>
+        <div class="item"><div class="n">8</div><div><strong>Hire continuously at 80% capacity;</strong> document before you delegate.</div></div>
+      </div>
+    </section>
+
+    </div>
+    <p class="no-results" id="noResults">No matches found. Try a different term.</p>
+
+    <footer>
+      Compiled from Jeremy Haynes’ “If I Wanted To Master Sales” (4-hr course) and companion articles at jeremyhaynes.com.<br>
+      Numbers and quotes reflect his published claims, not independently verified results.
+    </footer>
+  </main>
+</div>
+
+<button class="top-btn" id="topBtn" title="Back to top">↑</button>
+
+<script>
+  // Active nav highlighting on scroll
+  const navLinks = [...document.querySelectorAll('#nav a')];
+  const sections = navLinks.map(a => document.querySelector(a.getAttribute('href')));
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#'+e.target.id));
+      }
+    });
+  }, {rootMargin:'-20% 0px -70% 0px'});
+  sections.forEach(s => s && obs.observe(s));
+
+  // Search filter
+  const search = document.getElementById('search');
+  const allSections = [...document.querySelectorAll('#content section')];
+  const noRes = document.getElementById('noResults');
+  search.addEventListener('input', () => {
+    const q = search.value.trim().toLowerCase();
+    let visible = 0;
+    allSections.forEach(sec => {
+      const hay = (sec.textContent + ' ' + (sec.dataset.title||'')).toLowerCase();
+      const match = !q || hay.includes(q);
+      sec.style.display = match ? '' : 'none';
+      if(match) visible++;
+    });
+    noRes.style.display = visible ? 'none' : 'block';
+  });
+
+  // Back to top
+  const topBtn = document.getElementById('topBtn');
+  window.addEventListener('scroll', () => {
+    topBtn.style.display = window.scrollY > 600 ? 'block' : 'none';
+  });
+  topBtn.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
+</script>
+</body>
+</html>
