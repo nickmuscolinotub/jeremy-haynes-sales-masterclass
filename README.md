@@ -26,6 +26,15 @@ A **Learn / Practice** toggle lives at the top of the page. **Practice** adds:
 - **Scenario drills** — "a prospect says X → pick the best response," with a one-line *why* on every option.
 - **Progress + gamification** — XP, a daily streak, per-section mastery %, and badges, saved in your browser (localStorage).
 
+
+## 🆕 v2 — spaced repetition, juice & a Toolkit
+- **SM-2 spaced repetition** on flashcards — rate each card (Again / Hard / Good / Easy) and it reschedules itself; a "due today" pile drives daily return.
+- **Juice** — animated XP counter, floating +XP, an optional correct/incorrect sound (toggle in the top bar), confetti on badge unlocks.
+- **🛠 Toolkit tab**
+  - **Script Personalizer** — enter your name, niche, offer & price → get Haynes' first-contact text, selfie-video script, Reply-YES confirm, justification email, no-show recovery, and price-first opener in your words, with copy buttons.
+  - **Calculators** — show-rate machine, revenue projection, cost-per-call + breakeven, and a "when to hire a closer" capacity check.
+- **PWA** — installs to the home screen and works offline (manifest.json).
+
 It's a single `index.html` — no build step, no dependencies. Open it locally or view the live Pages site.
 
 ---

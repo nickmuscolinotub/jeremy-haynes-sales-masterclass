@@ -1,0 +1,18 @@
+{
+  "name": "Jeremy Haynes — Sales Masterclass",
+  "short_name": "JH Sales",
+  "description": "Learn, practice (spaced-repetition flashcards + drills), and apply (script generator + calculators) the Jeremy Haynes sales masterclass.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0f1115",
+  "theme_color": "#0f1115",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='512' height='512'%3E%3Crect width='512' height='512' rx='96' fill='%230f1115'/%3E%3Ctext x='50%25' y='52%25' font-size='300' text-anchor='middle' dominant-baseline='central'%3E%F0%9F%8E%AF%3C/text%3E%3C/svg%3E",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
