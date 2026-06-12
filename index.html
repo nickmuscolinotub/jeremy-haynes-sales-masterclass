@@ -8,7 +8,7 @@
   :root{
     --bg:#0f1115; --panel:#171a21; --panel-2:#1d212b; --line:#2a2f3a;
     --text:#e7eaf0; --muted:#9aa3b2; --accent:#f5a623; --accent-2:#5b8cff;
-    --green:#3fb950; --radius:14px;
+    --green:#3fb950; --red:#f06b5d; --radius:14px; --topbar-h:58px;
   }
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
@@ -17,12 +17,37 @@
     font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   }
   a{color:var(--accent-2); text-decoration:none}
-  /* layout */
-  .wrap{display:grid; grid-template-columns:300px 1fr; min-height:100vh}
-  /* sidebar */
+
+  /* ---------- TOP BAR (Learn / Practice + XP) ---------- */
+  .topbar{
+    position:sticky; top:0; z-index:60; height:var(--topbar-h);
+    display:flex; align-items:center; gap:18px; padding:0 20px;
+    background:rgba(15,17,21,.86); backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .topbar .logo{font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); font-weight:800; white-space:nowrap}
+  .tabs{display:flex; gap:6px}
+  .tab{
+    background:transparent; color:var(--muted); border:1px solid transparent; cursor:pointer;
+    font-size:14px; font-weight:600; padding:8px 14px; border-radius:999px; transition:.15s;
+  }
+  .tab:hover{color:var(--text)}
+  .tab.active{background:var(--panel-2); color:var(--text); border-color:var(--line)}
+  .xp-strip{margin-left:auto; display:flex; gap:14px; font-size:13px; color:var(--muted); align-items:center; white-space:nowrap}
+  .xp-strip b{color:var(--text); font-variant-numeric:tabular-nums}
+  .xp-strip .amt{color:var(--accent)}
+  .xp-strip .flame{color:#ff7a45}
+  @media(max-width:640px){ .xp-strip .lbl{display:none} .topbar{gap:10px; padding:0 12px} }
+
+  /* ---------- VIEWS ---------- */
+  .view{display:none}
+  .view.active{display:block}
+
+  /* ---------- LEARN (original guide) ---------- */
+  .wrap{display:grid; grid-template-columns:300px 1fr; min-height:calc(100vh - var(--topbar-h))}
   .side{
-    position:sticky; top:0; align-self:start; height:100vh; overflow-y:auto;
-    background:var(--panel); border-right:1px solid var(--line); padding:24px 18px;
+    position:sticky; top:var(--topbar-h); align-self:start; height:calc(100vh - var(--topbar-h));
+    overflow-y:auto; background:var(--panel); border-right:1px solid var(--line); padding:24px 18px;
   }
   .brand{font-size:13px; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); font-weight:700; margin-bottom:4px}
   .brand-sub{font-size:13px; color:var(--muted); margin-bottom:18px}
@@ -38,7 +63,6 @@
   .nav a:hover{background:var(--panel-2); color:var(--text)}
   .nav a.active{background:var(--panel-2); color:var(--text); border-left-color:var(--accent)}
   .nav .num{color:var(--accent); font-weight:700; margin-right:8px; font-variant-numeric:tabular-nums}
-  /* main */
   .main{padding:48px 56px; max-width:920px; margin:0 auto; width:100%}
   header.hero{margin-bottom:40px}
   .hero h1{font-size:34px; line-height:1.2; margin:0 0 10px; letter-spacing:-.01em}
@@ -49,12 +73,9 @@
   .chip b{color:var(--text)}
   section{
     background:var(--panel); border:1px solid var(--line); border-radius:var(--radius);
-    padding:28px 30px; margin-bottom:18px; scroll-margin-top:24px;
+    padding:28px 30px; margin-bottom:18px; scroll-margin-top:calc(var(--topbar-h) + 16px);
   }
-  section h2{
-    font-size:13px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent);
-    margin:0 0 6px; font-weight:700;
-  }
+  section h2{font-size:13px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); margin:0 0 6px; font-weight:700}
   section h2 .big{display:block; font-size:24px; letter-spacing:-.01em; text-transform:none; color:var(--text); margin-top:4px}
   section h3{font-size:17px; margin:24px 0 8px; color:var(--text)}
   section h4{font-size:14px; margin:18px 0 6px; color:var(--accent-2); letter-spacing:.02em}
@@ -63,48 +84,138 @@
   ul,ol{margin:10px 0; padding-left:22px}
   li{margin:6px 0}
   .lead{color:var(--muted); font-size:17px}
-  blockquote{
-    margin:14px 0; padding:14px 18px; background:var(--panel-2); border-left:3px solid var(--accent);
-    border-radius:0 10px 10px 0; color:#dfe5ef; font-style:normal;
-  }
+  blockquote{margin:14px 0; padding:14px 18px; background:var(--panel-2); border-left:3px solid var(--accent); border-radius:0 10px 10px 0; color:#dfe5ef; font-style:normal}
   blockquote.script{border-left-color:var(--green)}
-  .callout{
-    background:linear-gradient(180deg,rgba(245,166,35,.08),rgba(245,166,35,.02));
-    border:1px solid rgba(245,166,35,.3); border-radius:12px; padding:16px 18px; margin:16px 0;
-  }
+  .callout{background:linear-gradient(180deg,rgba(245,166,35,.08),rgba(245,166,35,.02)); border:1px solid rgba(245,166,35,.3); border-radius:12px; padding:16px 18px; margin:16px 0}
   .callout b{color:var(--accent)}
   table{width:100%; border-collapse:collapse; margin:14px 0; font-size:14.5px}
   th,td{text-align:left; padding:10px 12px; border-bottom:1px solid var(--line)}
   th{color:var(--muted); font-weight:600; font-size:12.5px; text-transform:uppercase; letter-spacing:.05em}
   td b{color:#fff}
   .stat{color:var(--accent); font-weight:700}
-  .cheat{counter-reset:c}
   .cheat .item{display:flex; gap:14px; padding:12px 0; border-bottom:1px solid var(--line)}
   .cheat .item:last-child{border-bottom:none}
-  .cheat .n{
-    flex:0 0 30px; height:30px; border-radius:50%; background:var(--accent); color:#1a1205;
-    display:grid; place-items:center; font-weight:800; font-size:14px;
-  }
-  .hl{color:var(--accent)}
+  .cheat .n{flex:0 0 30px; height:30px; border-radius:50%; background:var(--accent); color:#1a1205; display:grid; place-items:center; font-weight:800; font-size:14px}
   .green{color:var(--green)}
   .no-results{display:none; color:var(--muted); padding:30px; text-align:center}
   footer{color:var(--muted); font-size:13px; padding:30px 0 10px; text-align:center; border-top:1px solid var(--line); margin-top:20px}
+
+  /* ---------- PRACTICE ---------- */
+  .practice{max-width:860px; margin:0 auto; padding:34px 22px 80px}
+  .subtabs{display:flex; gap:8px; margin-bottom:26px; flex-wrap:wrap}
+  .subtab{
+    background:var(--panel); color:var(--muted); border:1px solid var(--line); cursor:pointer;
+    font-size:14px; font-weight:600; padding:10px 16px; border-radius:10px; transition:.15s;
+  }
+  .subtab:hover{color:var(--text)}
+  .subtab.active{background:var(--accent); color:#1a1205; border-color:var(--accent)}
+  .ptab{display:none}
+  .ptab.active{display:block}
+
+  /* dashboard */
+  .dash-hero{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:22px}
+  .stat-card{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:20px; text-align:center}
+  .stat-card .v{font-size:30px; font-weight:800; color:var(--accent); font-variant-numeric:tabular-nums; line-height:1}
+  .stat-card .v.flame{color:#ff7a45}
+  .stat-card .v.pct{color:var(--green)}
+  .stat-card .k{font-size:12px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin-top:8px}
+  .panelbox{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:22px 24px; margin-bottom:18px}
+  .panelbox h3{margin:0 0 14px; font-size:15px; letter-spacing:.04em; color:var(--text)}
+  .pgrid{display:flex; flex-direction:column; gap:12px}
+  .prow{display:grid; grid-template-columns:1fr 110px 44px; align-items:center; gap:12px}
+  .prow .pname{font-size:14px}
+  .prow .pname .pe{margin-right:8px}
+  .bar{height:8px; background:var(--panel-2); border-radius:999px; overflow:hidden}
+  .bar > i{display:block; height:100%; background:linear-gradient(90deg,var(--accent),var(--green)); width:0; transition:width .5s}
+  .prow .pp{font-size:13px; color:var(--muted); text-align:right; font-variant-numeric:tabular-nums}
+  .badges{display:flex; flex-wrap:wrap; gap:12px}
+  .badge{width:96px; text-align:center; opacity:.32; filter:grayscale(1); transition:.3s}
+  .badge.on{opacity:1; filter:none}
+  .badge .ic{width:58px; height:58px; margin:0 auto; border-radius:50%; display:grid; place-items:center; font-size:26px; background:var(--panel-2); border:1px solid var(--line)}
+  .badge.on .ic{background:rgba(245,166,35,.14); border-color:var(--accent); box-shadow:0 0 0 3px rgba(245,166,35,.12)}
+  .badge .bl{font-size:11px; color:var(--muted); margin-top:7px; line-height:1.3}
+  .badge.on .bl{color:var(--text)}
+  .reset{background:none; border:none; color:var(--muted); font-size:12.5px; cursor:pointer; text-decoration:underline; padding:4px}
+  .reset:hover{color:var(--red)}
+
+  /* deck/set pickers */
+  .picker{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px}
+  .pick{background:var(--panel); border:1px solid var(--line); color:var(--muted); border-radius:999px; padding:7px 14px; font-size:13px; cursor:pointer; transition:.15s}
+  .pick:hover{color:var(--text)}
+  .pick.active{background:var(--panel-2); color:var(--text); border-color:var(--accent-2)}
+  .pick .c{color:var(--accent); font-weight:700; margin-left:6px}
+
+  /* flashcard */
+  .card-stage{perspective:1400px; margin:0 auto 18px; max-width:640px}
+  .flip{position:relative; width:100%; min-height:280px; cursor:pointer; transition:transform .5s; transform-style:preserve-3d}
+  .flip.flipped{transform:rotateY(180deg)}
+  .face{position:absolute; inset:0; backface-visibility:hidden; border-radius:18px; border:1px solid var(--line); padding:34px; display:flex; flex-direction:column; justify-content:center; background:var(--panel)}
+  .face .side-tag{position:absolute; top:16px; left:20px; font-size:11px; text-transform:uppercase; letter-spacing:.1em; color:var(--muted)}
+  .face .mastered{position:absolute; top:14px; right:18px; font-size:12px; color:var(--green)}
+  .face .qtxt{font-size:21px; line-height:1.4; text-align:center}
+  .face.back{transform:rotateY(180deg); background:linear-gradient(180deg,#1b2330,#171a21); border-color:var(--accent-2)}
+  .face.back .atxt{font-size:17px; line-height:1.55; text-align:center; color:#eef2f8}
+  .face .hint{position:absolute; bottom:16px; left:0; right:0; text-align:center; font-size:12px; color:var(--muted)}
+  .card-controls{display:flex; justify-content:center; align-items:center; gap:10px; flex-wrap:wrap}
+  .btn{border:1px solid var(--line); background:var(--panel); color:var(--text); border-radius:10px; padding:10px 16px; font-size:14px; font-weight:600; cursor:pointer; transition:.15s}
+  .btn:hover{border-color:var(--accent-2)}
+  .btn.good{background:rgba(63,185,80,.14); border-color:var(--green); color:#8ff0a0}
+  .btn.again{background:rgba(240,107,93,.1); border-color:var(--red); color:#ffb3aa}
+  .btn.nav{padding:10px 14px; color:var(--muted)}
+  .count{font-size:13px; color:var(--muted); min-width:70px; text-align:center}
+  .done-msg{text-align:center; padding:50px 20px; color:var(--muted)}
+  .done-msg .big{font-size:40px}
+
+  /* scenarios */
+  .scenario{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:26px 28px; max-width:680px; margin:0 auto}
+  .scenario .sit{font-size:18px; line-height:1.5; margin-bottom:8px}
+  .scenario .pretag{font-size:11px; text-transform:uppercase; letter-spacing:.1em; color:var(--accent); margin-bottom:14px}
+  .opts{display:flex; flex-direction:column; gap:10px; margin-top:18px}
+  .opt{text-align:left; background:var(--panel-2); border:1px solid var(--line); color:var(--text); border-radius:11px; padding:14px 16px; font-size:15px; cursor:pointer; transition:.15s}
+  .opt:hover:not(.locked){border-color:var(--accent-2)}
+  .opt.locked{cursor:default}
+  .opt.correct{border-color:var(--green); background:rgba(63,185,80,.12)}
+  .opt.wrong{border-color:var(--red); background:rgba(240,107,93,.12)}
+  .opt .why{display:none; margin-top:9px; font-size:13px; color:var(--muted); line-height:1.5}
+  .opt.show-why .why{display:block}
+  .drill-foot{display:flex; justify-content:space-between; align-items:center; margin-top:20px; max-width:680px; margin-left:auto; margin-right:auto}
+  .drill-foot .score{font-size:14px; color:var(--muted)} .drill-foot .score b{color:var(--accent)}
+
+  /* toast + confetti */
+  .toast{position:fixed; left:50%; bottom:30px; transform:translateX(-50%) translateY(20px); background:var(--accent); color:#1a1205; font-weight:700; padding:12px 20px; border-radius:12px; opacity:0; transition:.35s; z-index:200; box-shadow:0 8px 30px rgba(0,0,0,.4)}
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
+  .confetti{position:fixed; top:-12px; width:8px; height:14px; z-index:190; border-radius:2px; animation:fall 2.1s linear forwards}
+  @keyframes fall{to{transform:translateY(110vh) rotate(540deg); opacity:.2}}
+
   /* mobile */
   @media(max-width:860px){
     .wrap{grid-template-columns:1fr}
-    .side{position:relative; height:auto; border-right:none; border-bottom:1px solid var(--line)}
+    .side{position:relative; top:0; height:auto; border-right:none; border-bottom:1px solid var(--line)}
     .nav{display:none}
     .main{padding:30px 20px}
     .hero h1{font-size:26px}
-  }
-  .top-btn{
-    position:fixed; right:22px; bottom:22px; background:var(--accent); color:#1a1205;
-    border:none; width:46px; height:46px; border-radius:50%; font-size:20px; cursor:pointer;
-    display:none; box-shadow:0 6px 20px rgba(0,0,0,.4); font-weight:700;
+    .dash-hero{grid-template-columns:1fr 1fr}
+    .prow{grid-template-columns:1fr 80px 40px}
   }
 </style>
 </head>
 <body>
+
+<div class="topbar">
+  <span class="logo">JH&nbsp;Sales</span>
+  <nav class="tabs">
+    <button class="tab active" data-view="learn">📖 Learn</button>
+    <button class="tab" data-view="practice">🎯 Practice</button>
+  </nav>
+  <div class="xp-strip">
+    <span><span class="lbl">XP </span><b class="amt" id="xpVal">0</b></span>
+    <span><span class="flame">🔥</span> <b id="streakVal">0</b></span>
+    <span><span class="lbl">Mastery </span><b class="pct-top" id="overallVal">0%</b></span>
+  </div>
+</div>
+
+<!-- ================= LEARN VIEW ================= -->
+<div id="view-learn" class="view active">
 <div class="wrap">
   <aside class="side">
     <div class="brand">Jeremy Haynes</div>
@@ -133,7 +244,7 @@
       <div class="meta-row">
         <span class="chip"><b>8</b> parts + bonus</span>
         <span class="chip">Scripts in <b class="green">green</b> = use verbatim</span>
-        <span class="chip">Source: <b>jeremyhaynes.com</b></span>
+        <span class="chip">New: <b>🎯 Practice mode</b></span>
       </div>
     </header>
 
@@ -404,6 +515,7 @@
         <div class="item"><div class="n">7</div><div><strong>Track stats daily</strong>, review calls in 48 hrs, coach one thing, fire in 4 weeks.</div></div>
         <div class="item"><div class="n">8</div><div><strong>Hire continuously at 80% capacity;</strong> document before you delegate.</div></div>
       </div>
+      <p style="margin-top:18px; color:var(--muted)">Ready to make it stick? Hit <strong>🎯 Practice</strong> up top — flashcards, decision drills, and a progress tracker.</p>
     </section>
 
     </div>
@@ -415,44 +527,455 @@
     </footer>
   </main>
 </div>
+</div>
 
-<button class="top-btn" id="topBtn" title="Back to top">↑</button>
+<!-- ================= PRACTICE VIEW ================= -->
+<div id="view-practice" class="view">
+  <div class="practice">
+    <nav class="subtabs">
+      <button class="subtab active" data-ptab="dash">📊 Dashboard</button>
+      <button class="subtab" data-ptab="cards">🃏 Flashcards</button>
+      <button class="subtab" data-ptab="drills">🎬 Scenario Drills</button>
+    </nav>
+
+    <!-- DASHBOARD -->
+    <div id="ptab-dash" class="ptab active">
+      <div class="dash-hero">
+        <div class="stat-card"><div class="v" id="d-xp">0</div><div class="k">Total XP</div></div>
+        <div class="stat-card"><div class="v flame" id="d-streak">0</div><div class="k">Day Streak 🔥</div></div>
+        <div class="stat-card"><div class="v pct" id="d-overall">0%</div><div class="k">Mastery</div></div>
+      </div>
+      <div class="panelbox">
+        <h3>Progress by section</h3>
+        <div class="pgrid" id="pgrid"></div>
+      </div>
+      <div class="panelbox">
+        <h3>Badges</h3>
+        <div class="badges" id="badges"></div>
+        <div style="margin-top:16px"><button class="reset" id="resetBtn">Reset all progress</button></div>
+      </div>
+      <p style="color:var(--muted); font-size:13px">Progress is saved in this browser only (no account needed). XP: <b>+10</b> per flashcard mastered, <b>+15</b> per drill answered correctly. Come back daily to keep your streak alive.</p>
+    </div>
+
+    <!-- FLASHCARDS -->
+    <div id="ptab-cards" class="ptab">
+      <div class="picker" id="cardPicker"></div>
+      <div id="cardArea"></div>
+    </div>
+
+    <!-- DRILLS -->
+    <div id="ptab-drills" class="ptab">
+      <div class="picker" id="drillPicker"></div>
+      <div id="drillArea"></div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
 
 <script>
-  // Active nav highlighting on scroll
-  const navLinks = [...document.querySelectorAll('#nav a')];
-  const sections = navLinks.map(a => document.querySelector(a.getAttribute('href')));
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if(e.isIntersecting){
-        navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#'+e.target.id));
-      }
-    });
-  }, {rootMargin:'-20% 0px -70% 0px'});
-  sections.forEach(s => s && obs.observe(s));
+/* ============ LEARN: nav highlight + search + scroll ============ */
+const navLinks = [...document.querySelectorAll('#nav a')];
+const sections = navLinks.map(a => document.querySelector(a.getAttribute('href')));
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){
+    navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#'+e.target.id));
+  }});
+}, {rootMargin:'-25% 0px -65% 0px'});
+sections.forEach(s => s && obs.observe(s));
 
-  // Search filter
-  const search = document.getElementById('search');
-  const allSections = [...document.querySelectorAll('#content section')];
-  const noRes = document.getElementById('noResults');
-  search.addEventListener('input', () => {
-    const q = search.value.trim().toLowerCase();
-    let visible = 0;
-    allSections.forEach(sec => {
-      const hay = (sec.textContent + ' ' + (sec.dataset.title||'')).toLowerCase();
-      const match = !q || hay.includes(q);
-      sec.style.display = match ? '' : 'none';
-      if(match) visible++;
-    });
-    noRes.style.display = visible ? 'none' : 'block';
+const search = document.getElementById('search');
+const allSections = [...document.querySelectorAll('#content section')];
+const noRes = document.getElementById('noResults');
+search.addEventListener('input', () => {
+  const q = search.value.trim().toLowerCase(); let visible = 0;
+  allSections.forEach(sec => {
+    const hay = (sec.textContent + ' ' + (sec.dataset.title||'')).toLowerCase();
+    const match = !q || hay.includes(q);
+    sec.style.display = match ? '' : 'none'; if(match) visible++;
   });
+  noRes.style.display = visible ? 'none' : 'block';
+});
 
-  // Back to top
-  const topBtn = document.getElementById('topBtn');
-  window.addEventListener('scroll', () => {
-    topBtn.style.display = window.scrollY > 600 ? 'block' : 'none';
+/* ============ TOP-LEVEL VIEW SWITCH ============ */
+let practiceInit = false;
+document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => {
+  document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+  t.classList.add('active');
+  const v = t.dataset.view;
+  document.getElementById('view-learn').classList.toggle('active', v==='learn');
+  document.getElementById('view-practice').classList.toggle('active', v==='practice');
+  if(v==='practice'){ if(!practiceInit){ initPractice(); practiceInit=true; } window.scrollTo({top:0}); refreshProgress(); }
+}));
+
+/* ============ CONTENT DATA ============ */
+const PARTS = [
+  {id:1, title:'Contact the Lead', emoji:'📞', badge:'First Contact'},
+  {id:2, title:'Team Structure',   emoji:'👥', badge:'Team Builder'},
+  {id:3, title:'Show-Rate Machine',emoji:'🎬', badge:'Show Master'},
+  {id:4, title:'The Sales Call',   emoji:'🤝', badge:'Closer'},
+  {id:5, title:'Diagnostic Selling',emoji:'🩺',badge:'Diagnostician'},
+  {id:6, title:'Objection Handling',emoji:'🛡️',badge:'Objection Slayer'},
+  {id:7, title:'Managing the Team',emoji:'📊', badge:'Coach'},
+  {id:8, title:'Hiring Closers',   emoji:'🎯', badge:'Recruiter'},
+];
+const partTitle = id => (PARTS.find(p=>p.id===id)||{}).title || '';
+
+const FLASHCARDS = [
+  {part:1,q:"How fast must you contact a new lead — and what's the payoff?",a:"Within 5 minutes of form-fill → +50% close probability. After ~10 min, qualifying odds drop ~400%."},
+  {part:1,q:"First move when a lead comes in — text or call?",a:"Text FIRST with your name (bypasses the iPhone unknown-caller filter), THEN call twice — a 2nd call rings through Do Not Disturb."},
+  {part:1,q:"What humanizing touch follows the first text?",a:"A 10–30 sec selfie video: “just wanted to put a face to the name.”"},
+  {part:1,q:"What replaces “just checking in” follow-ups?",a:"VALUE — a relevant article, case study, or platform update. Frame = expertise + helpfulness, never pressure."},
+
+  {part:2,q:"Name the 3 sales roles.",a:"Setter (books appointments), Closer (runs & closes the call), Cleaner (works abandoned / no-show leads)."},
+  {part:2,q:"Which role is the “hidden money,” and why?",a:"The Cleaner — recovers revenue other closers abandoned AND trains new reps with low-pressure reps."},
+  {part:2,q:"Closer headcount for 40–50 calls/day?",a:"5–7 closers taking calls 5 days/week, with 2–3 covering Saturdays."},
+
+  {part:3,q:"Scanner mode vs. Justification mode?",a:"Before booking = scanner (skim, conserve energy). The instant they book = justification (researching they were right). That post-booking window is your highest-leverage sales moment."},
+  {part:3,q:"What is the Dermatologist Principle?",a:"The same info lands differently by FRAME — personal, contextual, believable beats a generic stat."},
+  {part:3,q:"The 4 parts of the show-rate machine?",a:"1) Confirmation-page urgency video, 2) value-dense email sequence, 3) “Hammer Them” retargeting, 4) personalized setter outreach — run ALL in parallel."},
+  {part:3,q:"Confirmation-page video: what leads, and the result?",a:"ONE ~8-min urgency/first-mover video first → +14% show rate (even though only 52% watched). 19 supporting videos without it: only ~2%."},
+  {part:3,q:"Pre-call email cadence + target open rate?",a:"6 emails/day from booking to call = 18 over 72 hrs. Target 50–70% open. Put content IN the body — don't link out."},
+  {part:3,q:"“Hammer Them” content inventory (non-negotiable)?",a:"30–50 short-form (<90s) + 15–30 long-form; aim for 15–20 impressions per prospect before the call."},
+  {part:3,q:"The Reply-YES mechanic?",a:"“Reply YES to confirm…” → +10–15% show rate; YES-responders show at 85%+."},
+  {part:3,q:"No-show recovery sequence?",a:"15 min after: “life gets crazy” + reschedule. 1 hr later: email w/ value. Next day: “last chance.” Recovers 20–30%."},
+  {part:3,q:"What show rate signals an offer problem?",a:"In the 30s. “You don't have an offer — you have a sales liability.” Target 60–70% minimum."},
+
+  {part:4,q:"Ideal talk/listen ratio on a call?",a:"Talk under 40% (target ~43/57). Low performers talk 65–75%."},
+  {part:4,q:"When do you state price — and why?",a:"Upfront. Then every feature becomes proof the price is worth it; value grows instead of landing as a shock."},
+  {part:4,q:"The justification question?",a:"“If you were to invest today, what 1, 2, maybe 3 things would you absolutely need to see to justify it?” → hands you their buying criteria."},
+  {part:4,q:"What does FAB stand for (+ the 2 extra steps)?",a:"Feature → Advantage → Benefit → Gap question → Inarguable Yes."},
+  {part:4,q:"Why the FAB “gap question”?",a:"“What are you currently doing to get this?” Answer is usually “nothing” — the gap IS the sale. Don't explain it; let them feel it."},
+  {part:4,q:"The assumptive close line?",a:"“How soon do you want to get started?” (not “Are you interested?”)"},
+  {part:4,q:"The 6 emotional drivers of a purchase?",a:"Confidence, Creative, Relief (strongest), Competent, Savvy, Accepted."},
+
+  {part:5,q:"Diagnostic vs. pitch close rates (his claim)?",a:"Diagnostic 40–60% vs. traditional pitch 15–25%. The call is a diagnosis, not a pitch."},
+  {part:5,q:"The reframe template?",a:"“You think the issue is [surface], but it sounds like the real issue is [root cause]. Does that resonate?”"},
+
+  {part:6,q:"Objection-handling framework?",a:"Acknowledge → Reframe → Ask."},
+  {part:6,q:"Reframe for “I need to think about it”?",a:"“Usually that means a specific concern — is it budget, timing, or the solution itself?”"},
+  {part:6,q:"Reframe for a ghosted proposal?",a:"“Usually it's one of three: price, timing, or scope. Which is it for you?”"},
+  {part:6,q:"Two assumptive language swaps?",a:"“Would you like to start?” → “When would you like to start?” · “Are you interested?” → “Which package fits your timeline?”"},
+
+  {part:7,q:"When do you intervene / fire on declining stats?",a:"2 weeks declining → performance conversation; 4 weeks → termination."},
+  {part:7,q:"How fast are calls reviewed, and how do you coach?",a:"Recorded + reviewed within 48 hrs; rep self-reviews first; coach the “one thing” (highest-impact fix)."},
+  {part:7,q:"Target close rate on qualified, booked calls?",a:"~35%."},
+
+  {part:8,q:"When do you start hiring a new closer?",a:"At 70–80% calendar capacity. Continuous hiring (12×/yr) ≈ 2× revenue vs reactive (6×/yr)."},
+  {part:8,q:"Docs required before hiring your 1st closer?",a:"Documented process, 20–30 winning call recordings, scripts for top 5 objections, clear qualification criteria. “You can't delegate what you haven't documented.”"},
+  {part:8,q:"The 4-stage screening funnel?",a:"1) Typeform auto-DQ, 2) EA/VA text review, 3) 90-sec selfie video (3 Qs), 4) two-round Zoom w/ role-plays."},
+];
+
+const SCENARIOS = [
+  {part:1, prompt:"A lead just submitted your form 30 seconds ago. What's your FIRST move?", options:[
+    {t:"Call right away and leave a voicemail.", c:false, why:"Cold calls hit DND/spam filters and get ignored."},
+    {t:"Text them first using your name, then call twice.", c:true, why:"The named text bypasses the unknown-caller filter; a 2nd call rings through DND."},
+    {t:"Send a polished email and wait for a reply.", c:false, why:"Too slow — email won't beat the 5-minute window."},
+    {t:"Add them to a drip and follow up tomorrow.", c:false, why:"Waiting can drop qualifying odds ~400%."},
+  ]},
+  {part:1, prompt:"It's day 3, still no reply. What do you send?", options:[
+    {t:"“Hey, just checking in!”", c:false, why:"Pressure-y and value-less — it gets archived."},
+    {t:"A relevant case study or industry update.", c:true, why:"Value-first keeps you the helpful expert; most sales need 5+ touches."},
+    {t:"“Still interested or should I close your file?”", c:false, why:"The takeaway is for 14+ day silence, not day 3."},
+    {t:"Nothing — wait for them to reply.", c:false, why:"80% of sales take 5+ follow-ups; silence loses them."},
+  ]},
+  {part:2, prompt:"Dozens of booked leads ghosted last quarter and were never worked again. Who fixes this?", options:[
+    {t:"A Setter taking fresh calls.", c:false, why:"Setters work new leads, not the abandoned pile."},
+    {t:"A Cleaner.", c:true, why:"Cleaners work abandoned/no-show leads — the most underused, profitable role."},
+    {t:"The marketing team.", c:false, why:"This is a sales-recovery job, not a lead-gen job."},
+    {t:"Nobody — they're dead leads.", c:false, why:"That's real revenue left on the table."},
+  ]},
+  {part:3, prompt:"Someone just booked a call. Your highest-leverage move RIGHT NOW is…", options:[
+    {t:"Wait, then send a reminder the morning of.", c:false, why:"Wastes the justification-mode window entirely."},
+    {t:"Fire all 4 backend systems (confirm video, emails, retargeting, setter).", c:true, why:"They just flipped to justification mode — prime them now."},
+    {t:"Email the contract to sign.", c:false, why:"Way too early; you haven't built conviction."},
+    {t:"Do nothing until the call.", c:false, why:"The pre-call window is your biggest show-rate lever."},
+  ]},
+  {part:3, prompt:"What goes FIRST on the confirmation page?", options:[
+    {t:"19 helpful FAQ videos.", c:false, why:"Without an urgency anchor first, they lift show rate only ~2%."},
+    {t:"One ~8-min urgency / first-mover video.", c:true, why:"Drove +14% show rate and activates everything else."},
+    {t:"An upsell offer.", c:false, why:"Never sell something else before the booked call happens."},
+    {t:"Just the calendar link.", c:false, why:"A bare confirmation wastes peak receptivity."},
+  ]},
+  {part:3, prompt:"To confirm tomorrow's call, which text lifts show rate most?", options:[
+    {t:"“See you tomorrow at 2pm.”", c:false, why:"No commitment requested — easy to ignore."},
+    {t:"“Reply YES to confirm you're still good for 2pm tomorrow.”", c:true, why:"Micro-commitment → +10–15%; YES-ers show at 85%+."},
+    {t:"“Don't forget our call!”", c:false, why:"A nag, not a commitment device."},
+    {t:"Send no text at all.", c:false, why:"You skip an easy double-digit show-rate gain."},
+  ]},
+  {part:4, prompt:"Early on the sales call, when do you reveal price?", options:[
+    {t:"At the very end after stacking value.", c:false, why:"Price-last caps perceived value and lands as a shock."},
+    {t:"Upfront, then justify as you go.", c:true, why:"Each feature afterward becomes proof the price is worth it."},
+    {t:"Only if they ask.", c:false, why:"Avoiding price reads as low status and wastes their time."},
+    {t:"Never on the first call.", c:false, why:"Dodging price erodes trust and drags the cycle out."},
+  ]},
+  {part:4, prompt:"You just described a feature. What completes the FAB sequence?", options:[
+    {t:"List two more features.", c:false, why:"Features alone = “horrible salespeople.”"},
+    {t:"Advantage → Benefit → gap question.", c:true, why:"FAB ends on the gap they currently can't fill — that's the sale."},
+    {t:"Ask for the sale immediately.", c:false, why:"You skipped the benefit and the gap that creates desire."},
+    {t:"Jump straight to pricing.", c:false, why:"Price already came first; now you build value via FAB."},
+  ]},
+  {part:4, prompt:"How do you ask for the close?", options:[
+    {t:"“Are you interested?”", c:false, why:"Invites a yes/no — and an easy “no.”"},
+    {t:"“How soon do you want to get started?”", c:true, why:"Assumptive — it presupposes yes."},
+    {t:"“Should we maybe move forward?”", c:false, why:"Hedging signals low status and invites a stall."},
+    {t:"“Want to think it over?”", c:false, why:"You're handing them the delay objection for free."},
+  ]},
+  {part:6, prompt:"“I need to think about it.” Best response?", options:[
+    {t:"“Okay, I'll follow up next week.”", c:false, why:"Lets a vague stall harden into a no."},
+    {t:"“Usually that means a specific concern — is it budget, timing, or the solution?”", c:true, why:"Acknowledge → Reframe → Ask surfaces the real objection."},
+    {t:"“What's there to think about? It's a no-brainer.”", c:false, why:"Combative — it lowers trust."},
+    {t:"Immediately drop the price.", c:false, why:"Discounting an objection you haven't even identified."},
+  ]},
+  {part:6, prompt:"“Your price is too high.” Best reframe?", options:[
+    {t:"“I can do 20% off.”", c:false, why:"Trains them to push for discounts and signals the price was fake."},
+    {t:"“What most find is the cost of NOT solving this is bigger over time — can I show you that math?”", c:true, why:"Reframes price against the cost of inaction."},
+    {t:"“It's cheaper than my competitors.”", c:false, why:"Competing on price instead of value."},
+    {t:"“Okay, no problem.”", c:false, why:"You folded without handling the objection."},
+  ]},
+  {part:5, prompt:"A prospect names a surface problem. The diagnostic move is…", options:[
+    {t:"Immediately pitch your solution.", c:false, why:"That's pitching, not diagnosing — and it invites objections."},
+    {t:"Reframe: “you think it's X, but it sounds like the real issue is Y — resonate?”", c:true, why:"Reframing to the root cause creates the “aha” and prevents objections."},
+    {t:"Quote the price.", c:false, why:"You haven't established the real problem yet."},
+    {t:"Send a proposal to review later.", c:false, why:"You skipped diagnosis — the proposal won't land."},
+  ]},
+  {part:7, prompt:"A rep's numbers have declined for 4 straight weeks. Action?", options:[
+    {t:"Keep coaching indefinitely.", c:false, why:"4 weeks is the termination line, not more coaching."},
+    {t:"Have the termination conversation.", c:true, why:"2 wks = performance talk; 4 wks = let them go."},
+    {t:"Ignore it — they'll bounce back.", c:false, why:"Tolerating decline drags the whole floor down."},
+    {t:"Cut their base pay.", c:false, why:"Not the protocol; the standard is the 4-week line."},
+  ]},
+  {part:8, prompt:"When should you start recruiting your next closer?", options:[
+    {t:"After your current closer is fully maxed and overwhelmed.", c:false, why:"Reactive hiring ≈ half the revenue cadence."},
+    {t:"When a closer hits 70–80% calendar capacity.", c:true, why:"Continuous hiring (12×/yr) ≈ 2× revenue vs reactive."},
+    {t:"Only when revenue drops.", c:false, why:"By then you're already losing booked calls."},
+    {t:"Never — keep the team lean.", c:false, why:"Capacity caps revenue; you scale by hiring ahead."},
+  ]},
+];
+
+/* ============ PROGRESS STATE ============ */
+const STORE='jh_progress_v1';
+const fresh = () => ({xp:0, mastered:{}, drills:{}, badges:{}, streak:{count:0,last:null}});
+let state;
+try { state = JSON.parse(localStorage.getItem(STORE)) || fresh(); } catch(e){ state = fresh(); }
+function save(){ try{ localStorage.setItem(STORE, JSON.stringify(state)); }catch(e){} }
+
+function todayStr(){ const d=new Date(); return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(); }
+function yestStr(){ const d=new Date(Date.now()-864e5); return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(); }
+function bumpStreak(){
+  const t=todayStr();
+  if(state.streak.last===t) return;
+  state.streak.count = (state.streak.last===yestStr()) ? state.streak.count+1 : 1;
+  state.streak.last = t;
+}
+function addXP(n){ state.xp+=n; bumpStreak(); }
+
+/* totals */
+const partCards  = id => FLASHCARDS.filter(c=>c.part===id).length;
+const partDrills = id => SCENARIOS.filter(s=>s.part===id).length;
+const partTotal  = id => partCards(id)+partDrills(id);
+function partDone(id){
+  let d=0;
+  FLASHCARDS.forEach((c,i)=>{ if(c.part===id && state.mastered['c'+i]) d++; });
+  SCENARIOS.forEach((s,i)=>{ if(s.part===id && state.drills['d'+i]) d++; });
+  return d;
+}
+const totalItems = () => FLASHCARDS.length + SCENARIOS.length;
+function totalDone(){
+  return Object.keys(state.mastered).filter(k=>state.mastered[k]).length
+       + Object.keys(state.drills).filter(k=>state.drills[k]).length;
+}
+const overallPct = () => Math.round(100*totalDone()/totalItems());
+
+/* ============ INIT PRACTICE UI ============ */
+function initPractice(){
+  // sub-tabs
+  document.querySelectorAll('.subtab').forEach(b=>b.addEventListener('click',()=>{
+    document.querySelectorAll('.subtab').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    document.querySelectorAll('.ptab').forEach(p=>p.classList.remove('active'));
+    document.getElementById('ptab-'+b.dataset.ptab).classList.add('active');
+  }));
+  buildPicker('cardPicker', startDeck, partCards);
+  buildPicker('drillPicker', startDrillSet, partDrills);
+  document.getElementById('resetBtn').addEventListener('click',()=>{
+    if(confirm('Reset all XP, mastery, streak and badges? This cannot be undone.')){
+      state=fresh(); save(); refreshProgress(); startDeck('all'); startDrillSet('all');
+      document.querySelectorAll('#cardPicker .pick, #drillPicker .pick').forEach((el,i)=>el.classList.toggle('active', i===0));
+    }
   });
-  topBtn.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
+  startDeck('all'); startDrillSet('all');
+}
+
+function buildPicker(elId, onPick, counter){
+  const host=document.getElementById(elId); host.innerHTML='';
+  const mk=(label,val,count,active)=>{
+    const b=document.createElement('button'); b.className='pick'+(active?' active':'');
+    b.innerHTML=label+(count!=null?'<span class="c">'+count+'</span>':'');
+    b.addEventListener('click',()=>{ host.querySelectorAll('.pick').forEach(x=>x.classList.remove('active')); b.classList.add('active'); onPick(val); });
+    host.appendChild(b);
+  };
+  mk('All', 'all', null, true);
+  PARTS.forEach(p=>{ if(counter(p.id)>0) mk(p.emoji+' '+p.title, p.id, counter(p.id), false); });
+}
+
+/* ============ FLASHCARDS ============ */
+let deck=[], pos=0, flipped=false;
+function startDeck(filter){
+  deck = FLASHCARDS.map((c,i)=>i).filter(i => filter==='all' || FLASHCARDS[i].part===filter);
+  pos=0; flipped=false; renderCard();
+}
+function renderCard(){
+  const area=document.getElementById('cardArea');
+  if(!deck.length){
+    area.innerHTML='<div class="done-msg"><div class="big">✅</div><p>Deck complete — every card mastered!</p><button class="btn" onclick="document.querySelector(\'#cardPicker .pick\').click()">Restart all cards</button></div>';
+    return;
+  }
+  const idx=deck[pos], card=FLASHCARDS[idx], done=!!state.mastered['c'+idx];
+  area.innerHTML =
+   '<div class="card-stage"><div class="flip'+(flipped?' flipped':'')+'" id="flip">'+
+     '<div class="face front"><span class="side-tag">'+partTitle(card.part)+'</span>'+(done?'<span class="mastered">✓ mastered</span>':'')+'<div class="qtxt">'+card.q+'</div><div class="hint">click to flip</div></div>'+
+     '<div class="face back"><span class="side-tag">answer</span><div class="atxt">'+card.a+'</div><div class="hint">click to flip back</div></div>'+
+   '</div></div>'+
+   '<div class="card-controls">'+
+     '<button class="btn nav" id="prevBtn">◀</button>'+
+     '<button class="btn again" id="againBtn">🔁 Review again</button>'+
+     '<span class="count">'+(pos+1)+' / '+deck.length+'</span>'+
+     '<button class="btn good" id="gotBtn">✅ Got it</button>'+
+     '<button class="btn nav" id="nextBtn">▶</button>'+
+   '</div>';
+  document.getElementById('flip').addEventListener('click',()=>{ flipped=!flipped; document.getElementById('flip').classList.toggle('flipped'); });
+  document.getElementById('prevBtn').onclick=()=>{ pos=(pos-1+deck.length)%deck.length; flipped=false; renderCard(); };
+  document.getElementById('nextBtn').onclick=()=>{ pos=(pos+1)%deck.length; flipped=false; renderCard(); };
+  document.getElementById('againBtn').onclick=()=>{ const c=deck.splice(pos,1)[0]; deck.push(c); if(pos>=deck.length)pos=0; flipped=false; renderCard(); };
+  document.getElementById('gotBtn').onclick=()=>{
+    const id='c'+idx; if(!state.mastered[id]){ state.mastered[id]=true; addXP(10); }
+    deck.splice(pos,1); if(pos>=deck.length)pos=0; flipped=false; save(); refreshProgress(); renderCard();
+  };
+}
+// keyboard support for flashcards
+document.addEventListener('keydown',e=>{
+  if(!document.getElementById('view-practice').classList.contains('active')) return;
+  if(!document.getElementById('ptab-cards').classList.contains('active')) return;
+  if(e.key===' '){ e.preventDefault(); const f=document.getElementById('flip'); if(f){flipped=!flipped; f.classList.toggle('flipped');} }
+  if(e.key==='ArrowRight'){ const b=document.getElementById('nextBtn'); if(b)b.click(); }
+  if(e.key==='ArrowLeft'){ const b=document.getElementById('prevBtn'); if(b)b.click(); }
+});
+
+/* ============ SCENARIO DRILLS ============ */
+let setQ=[], sPos=0, score=0, answered=false, optOrder=[];
+function shuffle(a){ const r=a.slice(); for(let i=r.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [r[i],r[j]]=[r[j],r[i]]; } return r; }
+function startDrillSet(filter){
+  setQ = SCENARIOS.map((s,i)=>i).filter(i => filter==='all' || SCENARIOS[i].part===filter);
+  sPos=0; score=0; answered=false; renderScenario();
+}
+function renderScenario(){
+  const area=document.getElementById('drillArea');
+  if(!setQ.length){ area.innerHTML='<div class="done-msg"><p>No drills in this set.</p></div>'; return; }
+  if(sPos>=setQ.length){
+    area.innerHTML='<div class="done-msg"><div class="big">'+(score===setQ.length?'🏆':'🎯')+'</div><p>Set complete — you scored <b style="color:var(--accent)">'+score+' / '+setQ.length+'</b>.</p><button class="btn" id="againSet">Run it again</button></div>';
+    document.getElementById('againSet').onclick=()=>{ sPos=0; score=0; answered=false; renderScenario(); };
+    return;
+  }
+  const idx=setQ[sPos], sc=SCENARIOS[idx]; optOrder=shuffle(sc.options);
+  area.innerHTML =
+    '<div class="scenario"><div class="pretag">'+partTitle(sc.part)+' · scenario '+(sPos+1)+' of '+setQ.length+'</div>'+
+    '<div class="sit">'+sc.prompt+'</div><div class="opts" id="opts"></div></div>'+
+    '<div class="drill-foot"><span class="score">Score: <b>'+score+'</b> / '+setQ.length+'</span><button class="btn" id="nextScn" style="display:none">Next →</button></div>';
+  const opts=document.getElementById('opts');
+  optOrder.forEach(o=>{
+    const b=document.createElement('button'); b.className='opt';
+    b.innerHTML='<div>'+o.t+'</div><div class="why">'+(o.c?'✅ ':'❌ ')+o.why+'</div>';
+    b.addEventListener('click',()=>pick(b,o,idx));
+    opts.appendChild(b);
+  });
+  document.getElementById('nextScn').onclick=()=>{ sPos++; answered=false; renderScenario(); };
+}
+function pick(btn,opt,idx){
+  if(answered) return; answered=true;
+  document.querySelectorAll('#opts .opt').forEach(el=>el.classList.add('locked'));
+  // reveal correct + chosen
+  document.querySelectorAll('#opts .opt').forEach((el,i)=>{ if(optOrder[i].c){ el.classList.add('correct','show-why'); } });
+  if(opt.c){
+    const id='d'+idx; if(!state.drills[id]){ state.drills[id]=true; addXP(15); } score++;
+  } else {
+    btn.classList.add('wrong','show-why');
+  }
+  document.querySelector('.drill-foot .score b').textContent=score;
+  document.getElementById('nextScn').style.display='inline-block';
+  save(); refreshProgress();
+}
+
+/* ============ DASHBOARD RENDER + BADGES ============ */
+function refreshProgress(){
+  // top strip
+  document.getElementById('xpVal').textContent=state.xp;
+  document.getElementById('streakVal').textContent=state.streak.count||0;
+  document.getElementById('overallVal').textContent=overallPct()+'%';
+  // dashboard cards
+  const setTxt=(id,v)=>{ const el=document.getElementById(id); if(el)el.textContent=v; };
+  setTxt('d-xp',state.xp); setTxt('d-streak',state.streak.count||0); setTxt('d-overall',overallPct()+'%');
+  // per-part grid
+  const grid=document.getElementById('pgrid');
+  if(grid){
+    grid.innerHTML='';
+    PARTS.forEach(p=>{
+      const tot=partTotal(p.id), done=partDone(p.id), pct=tot?Math.round(100*done/tot):0;
+      const row=document.createElement('div'); row.className='prow';
+      row.innerHTML='<div class="pname"><span class="pe">'+p.emoji+'</span>'+p.title+'</div>'+
+                    '<div class="bar"><i style="width:'+pct+'%"></i></div>'+
+                    '<div class="pp">'+pct+'%</div>';
+      grid.appendChild(row);
+    });
+  }
+  // badges
+  syncBadges();
+  const bw=document.getElementById('badges');
+  if(bw){
+    bw.innerHTML='';
+    PARTS.forEach(p=>{
+      const on=!!state.badges['p'+p.id];
+      const el=document.createElement('div'); el.className='badge'+(on?' on':'');
+      el.innerHTML='<div class="ic">'+p.emoji+'</div><div class="bl">'+p.badge+'</div>';
+      bw.appendChild(el);
+    });
+    const allOn=!!state.badges.all;
+    const el=document.createElement('div'); el.className='badge'+(allOn?' on':'');
+    el.innerHTML='<div class="ic">🏆</div><div class="bl">Masterclass Complete</div>';
+    bw.appendChild(el);
+  }
+}
+function syncBadges(){
+  const newly=[];
+  PARTS.forEach(p=>{
+    const key='p'+p.id;
+    if(partTotal(p.id)>0 && partDone(p.id)===partTotal(p.id) && !state.badges[key]){ state.badges[key]=true; newly.push(p.badge); }
+  });
+  if(totalDone()===totalItems() && totalItems()>0 && !state.badges.all){ state.badges.all=true; newly.push('Masterclass Complete 🏆'); }
+  if(newly.length){ save(); celebrate(newly); }
+}
+
+/* ============ TOAST + CONFETTI ============ */
+let toastT;
+function toast(msg){
+  const el=document.getElementById('toast'); el.textContent=msg; el.classList.add('show');
+  clearTimeout(toastT); toastT=setTimeout(()=>el.classList.remove('show'),2600);
+}
+function celebrate(labels){
+  toast('🏅 Badge unlocked: '+labels.join(' · '));
+  const colors=['#f5a623','#5b8cff','#3fb950','#ffffff'];
+  for(let i=0;i<46;i++){
+    const d=document.createElement('div'); d.className='confetti';
+    d.style.left=(Math.random()*100)+'vw';
+    d.style.background=colors[i%colors.length];
+    d.style.animationDelay=(Math.random()*0.5)+'s';
+    document.body.appendChild(d);
+    setTimeout(()=>d.remove(),2300);
+  }
+}
+
+/* initial paint of the top strip */
+refreshProgress();
 </script>
 </body>
 </html>

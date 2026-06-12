@@ -19,6 +19,13 @@ framework, exact script, and benchmark, reorganized so you can apply it without 
 - Bonus — Funnel & Economics
 - 30-Second Cheat Sheet
 
+
+## 🎯 Interactive Practice mode
+A **Learn / Practice** toggle lives at the top of the page. **Practice** adds:
+- **Flashcards** — flip-card recall for every script, framework, and benchmark (self-rate Got it / Review again).
+- **Scenario drills** — "a prospect says X → pick the best response," with a one-line *why* on every option.
+- **Progress + gamification** — XP, a daily streak, per-section mastery %, and badges, saved in your browser (localStorage).
+
 It's a single `index.html` — no build step, no dependencies. Open it locally or view the live Pages site.
 
 ---
